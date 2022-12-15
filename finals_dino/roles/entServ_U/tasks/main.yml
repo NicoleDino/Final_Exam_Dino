@@ -1,0 +1,22 @@
+---
+## MARIADB/MYSQL IN UBUNTU ##
+
+  - name: Install mariadb package (Ubuntu)
+    tags: db,mariadb,ubuntu
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Starting MySQL Service (Ubuntu)
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install MySQL package  (Ubuntu)
+    apt:
+      name: mysql-server
+      state: present
+    when: ansible_distribution == "Ubuntu"

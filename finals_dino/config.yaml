@@ -1,0 +1,42 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Install updates for Ubuntu
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Update repository index for CentOS
+    tags: always
+    dnf:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "CentOS"
+
+- hosts: ubuntuServer
+  become: true
+  roles:
+  - monitorTools_U
+  - entServ_U
+
+- hosts: centosServer
+  become: true
+  roles:
+  - monitorTools_C
+  - entServ_C
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Create/change MOTD on remote servers
+    copy:
+      content: "Ansible Managed by nicole_dino\n"
+      dest: /etc/motd
+      owner: root
+      group: root

@@ -1,0 +1,23 @@
+---
+## NAGIOS ON CENTOS ##
+
+  - name: Prerequisite installation for Nagios
+    yum:
+      name:
+        - epel-release
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Installing Nagios on CentOS
+    tags: centos,nagios
+    dnf:
+      name: nagios
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Enabling/Starting Nagios on CentOS
+    tags: centos,apache,httpd,nagios
+    service:
+      name: nagios
+      state: started
+    when: ansible_distribution == "CentOS"
